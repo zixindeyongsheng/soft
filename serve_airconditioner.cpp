@@ -5,9 +5,9 @@ int serve_airconditioner::putair(int **feelist,int hoc)
 	this->judge(hoc);
 	if (this->state == 1)
 	{
-		if (hoc == 1)
+		if (hoc == 1)//ÖÆÀä
 			this->nowtemp -= this->windspeed*0.1*PUTAIRTIME;
-		else
+		else//ÖÆÈÈ
 			this->nowtemp += this->windspeed*0.1*PUTAIRTIME;
 		this->fee += feelist[hoc][this->windspeed]*PUTAIRTIME;
 		this->theinforable = 1;

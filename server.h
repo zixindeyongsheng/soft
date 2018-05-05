@@ -18,10 +18,22 @@ public:
 	//定期发送
 	//定期接收
 	//定期
-	void setfeelist(int fee1, int fee2, int fee3)//设置费率
+	void setfeelist(int fee1, int fee2, int fee3,int hoc)//设置费率
 	{
-		this->feelist[0] = fee1;
-		this->feelist[1] = fee2;
-		this->feelist[2] = fee3;
+		this->feelist[hoc][0] = fee1;
+		this->feelist[hoc][1] = fee2;
+		this->feelist[hoc][2] = fee3;
+	}
+	void sethoc(int hoc)
+	{
+		this->hoc = hoc;
+	}
+	int ** getfeelist()
+	{
+		return (int **)(this->feelist);
+	}
+	int setfeelist()
+	{
+		return this->hoc;
 	}
 };
