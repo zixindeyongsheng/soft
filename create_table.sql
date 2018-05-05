@@ -26,6 +26,7 @@ CREATE TABLE `user` (
   `temp` varchar(20) DEFAULT NULL,
   `money` varchar(20) DEFAULT NULL,
   `mode` varchar(20) DEFAULT NULL,
+  `time_now` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
