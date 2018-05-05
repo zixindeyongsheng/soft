@@ -18,11 +18,19 @@ private:
 	int theinforable;//报文有效性
 
 public:
-	int putair(int *feelist);//制冷则返回1，否则返回0
-	void judge()//判断是否达到设定温度
+	int putair(int **feelist,int hoc);//制冷则返回1，否则返回0
+	void judge(int hoc)//判断是否达到设定温度
 	{
-		if (fabs(aimtemp - nowtemp) < 0.1*PUTAIRTIME)
-			this->state = 0;
+		if (hoc == 1)
+			if (aimtemp < nowtemp)
+				this->state = 1;
+			else
+				this->state = 0;
+		else
+			if (aimtemp < nowtemp)
+				this->state = 0;
+			else
+				this->state = 1;
 	}
 	float getaimtemp()
 	{

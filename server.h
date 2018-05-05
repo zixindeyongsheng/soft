@@ -9,7 +9,8 @@ class server
 private:
 	vector<serve_airconditioner> serve_airconditionerptr;
 	int serve_airconditionernum;
-	int feelist[3];
+	int feelist[2][3];
+	int hoc;//制冷1/制热0
 
 public:
 	//监听并连接

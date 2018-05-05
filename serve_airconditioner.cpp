@@ -1,15 +1,15 @@
 #include"serve_airconditioner.h"
 
-int serve_airconditioner::putair(int *feelist)
+int serve_airconditioner::putair(int **feelist,int hoc)
 {
-	this->judge();
+	this->judge(hoc);
 	if (this->state == 1)
 	{
-		if (nowtemp > aimtemp)
+		if (hoc == 1)
 			this->nowtemp -= this->windspeed*0.1*PUTAIRTIME;
 		else
 			this->nowtemp += this->windspeed*0.1*PUTAIRTIME;
-		this->fee += feelist[this->windspeed]*PUTAIRTIME;
+		this->fee += feelist[hoc][this->windspeed]*PUTAIRTIME;
 		this->theinforable = 1;
 		return 1;
 	}
