@@ -1,13 +1,13 @@
 #pragma once
 #include<iostream>
 #include<string.h>
-#include"infor.h"
 using namespace std;
 
-#define PUTAIRTIME 1
+static int PUTAIRTIME = 1;//制冷周期
 
 
-class serve_airconditioner {
+class serve_airconditioner 
+{
 private:
 	float aimtemp;
 	float nowtemp;
@@ -15,15 +15,22 @@ private:
 	int state;//是否正在运作
 	int windspeed;//设定风速
 	string roomnumber;
-	infor theinfor;//下一次需要发送的报文
 	int theinforable;//报文有效性
 
 public:
-	int putair(int *feelist);//制冷则返回1，否则返回0
-	void judge()//判断是否达到设定温度
+	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
+	void judge(int hoc)//判断是否达到设定温度
 	{
-		if (fabs(aimtemp - nowtemp) < 0.1*PUTAIRTIME)
-			this->state = 0;
+		if (hoc == 1)
+			if (aimtemp < nowtemp)
+				this->state = 1;
+			else
+				this->state = 0;
+		else
+			if (aimtemp < nowtemp)
+				this->state = 0;
+			else
+				this->state = 1;
 	}
 	float getaimtemp()
 	{
@@ -41,13 +48,12 @@ public:
 	{
 		return this->windspeed;
 	}
-	infor gettheinfor()
-	{
-		return this->theinfor;
-	}
 	int gettheinforable()
 	{
 		return this->theinforable;
+	}
+	string getroomnumber() {
+		return this->roomnumber;
 	}
 
 	void setaimtemp(float temp)
@@ -66,12 +72,12 @@ public:
 	{
 		this->windspeed = windspeed;
 	}
-	void settheinfor(infor theinfor)
-	{
-		this->theinfor = theinfor;
-	}
 	void settheinforable(int theinforable)
 	{
 		this->theinforable = theinforable;
+	}
+	void setroomnumber(string roomnumber)
+	{
+		this->roomnumber = roomnumber;
 	}
 };
