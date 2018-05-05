@@ -18,7 +18,7 @@ private:
 	int theinforable;//报文有效性
 
 public:
-	int putair(int **feelist,int hoc);//制冷则返回1，否则返回0
+	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度
 	{
 		if (hoc == 1)
