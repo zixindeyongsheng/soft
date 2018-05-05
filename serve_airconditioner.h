@@ -4,10 +4,11 @@
 #include"infor.h"
 using namespace std;
 
-#define PUTAIRTIME 1
+#define PUTAIRTIME 1//ÖÆÀäÖÜÆÚ
 
 
-class serve_airconditioner {
+class serve_airconditioner 
+{
 private:
 	float aimtemp;
 	float nowtemp;
@@ -49,6 +50,9 @@ public:
 	{
 		return this->theinforable;
 	}
+	string getroomnumber() {
+		return this->roomnumber;
+	}
 
 	void setaimtemp(float temp)
 	{
@@ -73,5 +77,9 @@ public:
 	void settheinforable(int theinforable)
 	{
 		this->theinforable = theinforable;
+	}
+	void setroomnumber(string roomnumber)
+	{
+		this->roomnumber = roomnumber;
 	}
 };
