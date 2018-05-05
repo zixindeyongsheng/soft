@@ -24,4 +24,16 @@ public:
 		this->feelist[hoc][1] = fee2;
 		this->feelist[hoc][2] = fee3;
 	}
+	void sethoc(int hoc)
+	{
+		this->hoc = hoc;
+	}
+	int ** getfeelist()
+	{
+		return (int **)(this->feelist);
+	}
+	int setfeelist()
+	{
+		return this->hoc;
+	}
 };
