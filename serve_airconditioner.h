@@ -1,7 +1,6 @@
 #pragma once
 #include<iostream>
 #include<string.h>
-#include"infor.h"
 using namespace std;
 
 static int PUTAIRTIME = 1;//制冷周期
@@ -16,7 +15,6 @@ private:
 	int state;//是否正在运作
 	int windspeed;//设定风速
 	string roomnumber;
-	infor theinfor;//下一次需要发送的报文
 	int theinforable;//报文有效性
 
 public:
@@ -42,10 +40,6 @@ public:
 	{
 		return this->windspeed;
 	}
-	infor gettheinfor()
-	{
-		return this->theinfor;
-	}
 	int gettheinforable()
 	{
 		return this->theinforable;
@@ -69,10 +63,6 @@ public:
 	void setwindspeed(int windspeed)
 	{
 		this->windspeed = windspeed;
-	}
-	void settheinfor(infor theinfor)
-	{
-		this->theinfor = theinfor;
 	}
 	void settheinforable(int theinforable)
 	{

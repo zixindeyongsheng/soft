@@ -10,8 +10,6 @@ int serve_airconditioner::putair(int *feelist)
 		else
 			this->nowtemp += this->windspeed*0.1*PUTAIRTIME;
 		this->fee += feelist[this->windspeed]*PUTAIRTIME;
-		this->theinfor._fee = this->fee;
-		this->theinfor._temputre = this->nowtemp;
 		this->theinforable = 1;
 		return 1;
 	}
