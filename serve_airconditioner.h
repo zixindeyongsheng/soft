@@ -4,7 +4,7 @@
 #include"infor.h"
 using namespace std;
 
-#define PUTAIRTIME 1//制冷周期
+static int PUTAIRTIME = 1;//制冷周期
 
 
 class serve_airconditioner 
