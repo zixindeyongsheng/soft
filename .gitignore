@@ -1,1 +1,6 @@
 /309A/
+
+*.gitignore
+.vscode/launch.json
+.gitignore
+test
