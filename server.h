@@ -1,6 +1,8 @@
 #include<iostream>
 #include<string.h>
 #include<vector>
+#include<QTcpSocket>
+#include<QTcpServer>
 using namespace std;
 #include"serve_airconditioner.h"
 
@@ -11,7 +13,7 @@ private:
 	int serve_airconditionernum;
 	int feelist[2][3];
 	int hoc;//制冷1/制热0
-	sever server_sever;
+    QTcpServer server_sever;
 
 private slots:
 	void server_new_connect()//监听并连接
@@ -30,7 +32,7 @@ private slots:
 	}
 	void server_disconnect()//断开连接
 	{
-		socket toolsocket=sender();
+        QTcpSocket toolsocket=sender();
 		for (int i = 0; i < serve_airconditionerptr.size(); ++i)
 			if (serve_airconditionerptr[0].air_socket == toolsocket)
 				this->serve_airconditionerptr.erase(a.begin() + i, a.begin() + i + 1);
@@ -43,7 +45,7 @@ public:
 		QObject::connect(server_sever, &QTcpServer::newConnection, this, &server::server_new_connect);
 	}
 	//定期发送（未具有定期功能）
-	void server_send
+    void server_send()
 	{
 		QByteArray buffer;
 

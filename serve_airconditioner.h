@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include<string.h>
+#include<QTcpSocket>
 using namespace std;
 
 static int PUTAIRTIME = 1;//制冷周期
@@ -18,7 +19,7 @@ private:
 	int theinforable;//报文有效性
 	
 public:
-	socket air_socket;
+    QTcpSocket air_socket;
 	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度
 	{
