@@ -38,12 +38,14 @@ private slots:
             return;//错误处理
         Ac toolac;
 		//此处格式转化解析报文
-        if(toolac.type==1)
-            serve_airconditionerptr[i].nowtemp=toolac.tem;
-        else
+        if(toolac.type==1)//通告报文
+            if(serve_airconditionerptr[i].getstate()==0)
+                serve_airconditionerptr[i].nowtemp=toolac.tem;//不在运行则温度随房间变化
+            else;
+        else//请求报文
         {
-            if(serve_airconditionerptr[i].roomnumber=="")
-                serve_airconditionerptr[i].roomnumber=="";
+            if(serve_airconditionerptr[i].getroomnumber()=="")
+                serve_airconditionerptr[i].setroomnumber()=="";
             //执行相应的请求创建和插入
         }
 	}

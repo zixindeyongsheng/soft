@@ -68,9 +68,14 @@ public:
 	{
 		return this->theinforable;
 	}
-	string getroomnumber() {
+    string getroomnumber()
+    {
 		return this->roomnumber;
 	}
+    int getstate()
+    {
+        return this->state;
+    }
 
 	void setaimtemp(float temp)
 	{
@@ -96,4 +101,8 @@ public:
 	{
 		this->roomnumber = roomnumber;
 	}
+    void setstate(int state)
+    {
+        this->state=state;
+    }
 };
