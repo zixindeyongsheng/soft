@@ -1,9 +1,10 @@
 #pragma once
 #include<iostream>
 #include<string.h>
+#include<QTcpSocket>
 using namespace std;
 
-static int PUTAIRTIME = 1;//ÖÆÀäÖÜÆÚ
+static int PUTAIRTIME = 1;//åˆ¶å†·å‘¨æœŸ
 
 
 class serve_airconditioner 
@@ -12,21 +13,36 @@ private:
 	float aimtemp;
 	float nowtemp;
 	float fee;
-	int state;//ÊÇ·ñÕıÔÚÔË×÷
-	int windspeed;//Éè¶¨·çËÙ
+	int state;//æ˜¯å¦æ­£åœ¨è¿ä½œ
+	int windspeed;//è®¾å®šé£é€Ÿ
 	string roomnumber;
-	int theinforable;//±¨ÎÄÓĞĞ§ĞÔ
-
+	int theinforable;//æŠ¥æ–‡æœ‰æ•ˆæ€§
+	
 public:
-	int putair(int **feelist,int hoc);//ÔËĞĞÔò·µ»Ø1£¬·ñÔò·µ»Ø0
-	void judge(int hoc)//ÅĞ¶ÏÊÇ·ñ´ïµ½Éè¶¨ÎÂ¶È
+    QTcpSocket* air_socket;
+    serve_airconditioner(){
+        aimtemp=25;
+        nowtemp=25;
+        fee=0;
+        state=0;//æ˜¯å¦æ­£åœ¨è¿ä½œ
+        windspeed=0;//è®¾å®šé£é€Ÿ
+        roomnumber="";
+        theinforable=0;//æŠ¥æ–‡æœ‰æ•ˆæ€§
+        air_socket=NULL;
+    }
+    ~serve_airconditioner(){
+        if(air_socket!=NULL)
+            delete air_socket;
+    }
+	int putair(int **feelist,int hoc);//è¿è¡Œåˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0
+	void judge(int hoc)//åˆ¤æ–­æ˜¯å¦è¾¾åˆ°è®¾å®šæ¸©åº¦
 	{
-		if (hoc == 1)//ÖÆÀäÎÂ¶È¸ßÓÚÉè¶¨ÔòÆô¶¯£¬·ñÔò¿ªÆô
+		if (hoc == 1)//åˆ¶å†·æ¸©åº¦é«˜äºè®¾å®šåˆ™å¯åŠ¨ï¼Œå¦åˆ™å¼€å¯
 			if (aimtemp < nowtemp)
 				this->state = 1;
 			else
 				this->state = 0;
-		else//ÖÆÈÈÎÂ¶ÈµÍÓÚÉè¶¨ÎÂ¶ÈÔòÆô¶¯£¬·ñÔò¿ªÆô
+		else//åˆ¶çƒ­æ¸©åº¦ä½äºè®¾å®šæ¸©åº¦åˆ™å¯åŠ¨ï¼Œå¦åˆ™å¼€å¯
 			if (aimtemp < nowtemp)
 				this->state = 0;
 			else
@@ -52,9 +68,14 @@ public:
 	{
 		return this->theinforable;
 	}
-	string getroomnumber() {
+    string getroomnumber()
+    {
 		return this->roomnumber;
 	}
+    int getstate()
+    {
+        return this->state;
+    }
 
 	void setaimtemp(float temp)
 	{
@@ -80,4 +101,8 @@ public:
 	{
 		this->roomnumber = roomnumber;
 	}
+    void setstate(int state)
+    {
+        this->state=state;
+    }
 };
