@@ -3,8 +3,9 @@
 #include<vector>
 #include<QTcpSocket>
 #include<QTcpServer>
-using namespace std;
 #include"serve_airconditioner.h"
+#include"D:\Downloads\LINKLIST.h"
+using namespace std;
 
 class server
 {
@@ -28,14 +29,34 @@ private slots:
 	{
 		QByteArray buffer;
         buffer = ((QTcpSocket*)(QObject::sender()))->readAll();
+        QTcpSocket* toolsocket=(QTcpSocket*)(QObject::sender());
+        int aimptr=-1;
+        for(i=0;i<serve_airconditionerptr.size() && aimptr==-1;++i)
+            if(toolsocket==serve_airconditionerptr[i].air_socket)
+                aimptr=i;
+        if(aimptr==-1)
+            return;//错误处理
+        Ac toolac;
 		//此处格式转化解析报文
+        if(toolac.type==1)
+            serve_airconditionerptr[i].nowtemp=toolac.tem;
+        else
+        {
+            if(serve_airconditionerptr[i].roomnumber=="")
+                serve_airconditionerptr[i].roomnumber=="";
+            //执行相应的请求创建和插入
+        }
 	}
 	void server_disconnect()//断开连接
-	{
+    {
         QTcpSocket* toolsocket=(QTcpSocket*)(QObject::sender());
 		for (int i = 0; i < serve_airconditionerptr.size(); ++i)
-			if (serve_airconditionerptr[0].air_socket == toolsocket)
-                this->serve_airconditionerptr.erase(serve_airconditionerptr[0].begin() + i, serve_airconditionerptr[0].begin() + i + 1);
+            if (serve_airconditionerptr[i].air_socket == toolsocket)
+            {
+                serve_airconditioner& toolair = serve_airconditionerptr[i];
+                this->serve_airconditionerptr.erase(serve_airconditionerptr.begin() + i);
+                delete toolair;
+            }
 	}
 public:
 	server()//构造函数
@@ -49,7 +70,7 @@ public:
 	{
 		QByteArray buffer;
 
-		for(int i=0;i<serve_airconditionerptr.airconditionerptr.size();++i)
+        for(int i=0;i<serve_airconditionerptr.size();++i)
             if (serve_airconditionerptr[i].gettheinforable() == 1)
 			{
 				//利用serve_airconditionerptr[i]的get函数获取报文信息

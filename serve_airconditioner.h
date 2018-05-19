@@ -20,6 +20,20 @@ private:
 	
 public:
     QTcpSocket* air_socket;
+    serve_airconditioner(){
+        aimtemp=25;
+        nowtemp=25;
+        fee=0;
+        state=0;//是否正在运作
+        windspeed=0;//设定风速
+        roomnumber="";
+        theinforable=0;//报文有效性
+        air_socket=NULL;
+    }
+    ~serve_airconditioner(){
+        if(air_socket!=NULL)
+            delete air_socket;
+    }
 	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度
 	{
