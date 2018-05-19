@@ -12,39 +12,39 @@ private:
 	vector<serve_airconditioner> serve_airconditionerptr;
 	int serve_airconditionernum;
 	int feelist[2][3];
-	int hoc;//ÖÆÀä1/ÖÆÈÈ0
-    QTcpServer server_sever;
+	int hoc;//åˆ¶å†·1/åˆ¶çƒ­0
+    QTcpServer* server_sever;
 
 private slots:
-	void server_new_connect()//¼àÌı²¢Á¬½Ó
+	void server_new_connect()//ç›‘å¬å¹¶è¿æ¥
 	{
 		serve_airconditioner toolair = new serve_airconditioner();
-		toolair->air_socket = server_sever->nextPendingConnection();
+        toolair.air_socket = server_sever->nextPendingConnection();
 		serve_airconditionerptr.push_back(toolair);
 		QObject::connect(toolair->air_socket, &QTcpSocket::readyRead, this, server::server_receive);
 		QObject::connect(toolair->air_socket, &QTcpSocket::disconnected, this, server::server_disconnected);
 	}
-	void server_receive()//½ÓÊÕ
+	void server_receive()//æ¥æ”¶
 	{
 		QByteArray buffer;
-		buffer = sender()->readyAll();
-		//´Ë´¦¸ñÊ½×ª»¯½âÎö±¨ÎÄ
+        buffer = ((QTcpSocket*)sender())->readAll();
+		//æ­¤å¤„æ ¼å¼è½¬åŒ–è§£ææŠ¥æ–‡
 	}
-	void server_disconnect()//¶Ï¿ªÁ¬½Ó
+	void server_disconnect()//æ–­å¼€è¿æ¥
 	{
-        QTcpSocket toolsocket=sender();
+        QTcpSocket* toolsocket=(QTcpSocket*)sender();
 		for (int i = 0; i < serve_airconditionerptr.size(); ++i)
 			if (serve_airconditionerptr[0].air_socket == toolsocket)
-				this->serve_airconditionerptr.erase(a.begin() + i, a.begin() + i + 1);
+                this->serve_airconditionerptr.erase(serve_airconditionerptr[0].begin() + i, serve_airconditionerptr[0].begin() + i + 1);
 	}
 public:
-	server()//¹¹Ôìº¯Êı
+	server()//æ„é€ å‡½æ•°
 	{
 		server_sever = new QTcpServer();
 		server_server->listen(QHostAddress::Any, port);
 		QObject::connect(server_sever, &QTcpServer::newConnection, this, &server::server_new_connect);
 	}
-	//¶¨ÆÚ·¢ËÍ£¨Î´¾ßÓĞ¶¨ÆÚ¹¦ÄÜ£©
+	//å®šæœŸå‘é€ï¼ˆæœªå…·æœ‰å®šæœŸåŠŸèƒ½ï¼‰
     void server_send()
 	{
 		QByteArray buffer;
@@ -52,14 +52,14 @@ public:
 		for(int i=0;i<serve_airconditionerptr.airconditionerptr.size();++i)
 			if (serve_airconditionerptr[i].gettheinforable == 1)
 			{
-				//ÀûÓÃserve_airconditionerptr[i]µÄgetº¯Êı»ñÈ¡±¨ÎÄĞÅÏ¢
+				//åˆ©ç”¨serve_airconditionerptr[i]çš„getå‡½æ•°è·å–æŠ¥æ–‡ä¿¡æ¯
 				serve_airconditionerptr[i]->write(data);
 			}
 	}
 	
 
-	//¶¨ÆÚÖÆÀä
-	void setfeelist(int fee1, int fee2, int fee3,int hoc)//ÉèÖÃ·ÑÂÊ
+	//å®šæœŸåˆ¶å†·
+	void setfeelist(int fee1, int fee2, int fee3,int hoc)//è®¾ç½®è´¹ç‡
 	{
 		this->feelist[hoc][0] = fee1;
 		this->feelist[hoc][1] = fee2;
