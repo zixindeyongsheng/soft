@@ -38,16 +38,17 @@ public:
 	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度
 	{
-		if (hoc == 1)//制冷温度高于设定则启动，否则开启
-			if (aimtemp < nowtemp)
-				this->state = 1;
-			else
-				this->state = 0;
-		else//制热温度低于设定温度则启动，否则开启
-			if (aimtemp < nowtemp)
-				this->state = 0;
-			else
-				this->state = 1;
+        if(s==1)//空调开启状态
+            if (hoc == 1)//制冷温度高于设定则启动，否则开启
+                if (aimtemp < nowtemp)
+                    this->state = 1;
+                else
+                    this->state = 0;
+            else//制热温度低于设定温度则启动，否则开启
+                if (aimtemp < nowtemp)
+                    this->state = 0;
+                else
+                    this->state = 1;
 	}
 	float getaimtemp()
 	{
