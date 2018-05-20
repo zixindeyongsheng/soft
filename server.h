@@ -5,6 +5,7 @@
 #include<QTcpServer>
 #include"serve_airconditioner.h"
 #include"D:\Downloads\LINKLIST.h"
+#include"parse.hpp"
 using namespace std;
 
 class server
@@ -36,7 +37,7 @@ private slots:
                 aimptr=i;
         if(aimptr==-1)
             return;//错误处理
-        Ac toolac;
+        Ac toolac=parse(buffer.data());
 		//此处格式转化解析报文
         if(toolac.type==1)//通告报文
             if(serve_airconditionerptr[i].getstate()==0)
@@ -45,7 +46,7 @@ private slots:
         else//请求报文
         {
             if(serve_airconditionerptr[i].getroomnumber()=="")
-                serve_airconditionerptr[i].setroomnumber()=="";
+                serve_airconditionerptr[i].setroomnumber(toolac.num);
             //执行相应的请求创建和插入
         }
 	}
@@ -69,15 +70,17 @@ public:
 	}
     //定期发送（未具有定期功能）
     void server_send()
-	{
-		QByteArray buffer;
-
+    {
         for(int i=0;i<serve_airconditionerptr.size();++i)
-            if (serve_airconditionerptr[i].gettheinforable() == 1)
-			{
-				//利用serve_airconditionerptr[i]的get函数获取报文信息
-                serve_airconditionerptr[i].air_socket->write(data);
-			}
+        {
+            Ac toolac;
+            toolac.s=serve_airconditionerptr[i].getstate();
+            toolac.tem=serve_airconditionerptr[i].getnowtemp();
+            toolac.cost=serve_airconditionerptr[i].getfee();
+            toolac.wind=serve_airconditionerptr[i].getwindspeed();
+            QByteArray buffer(toolac);
+            serve_airconditionerptr[i].air_socket->write(buffer);
+        }
 	}
 	
 
@@ -96,7 +99,7 @@ public:
 	{
 		return (int **)(this->feelist);
 	}
-	int setfeelist()
+    int gethoc()
 	{
 		return this->hoc;
 	}
