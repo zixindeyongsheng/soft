@@ -16,6 +16,7 @@ private:
 	int feelist[2][3];
 	int hoc;//制冷1/制热0
     QTcpServer* server_sever;
+    LinkList thelinklist;
 
 private slots:
 	void server_new_connect()//监听并连接
@@ -47,7 +48,7 @@ private slots:
         {
             if(serve_airconditionerptr[i].getroomnumber()=="")
                 serve_airconditionerptr[i].setroomnumber(toolac.num);
-            //执行相应的请求创建和插入
+            thelinklist.inserthead(toolac);//执行相应的请求创建和插入
         }
 	}
 	void server_disconnect()//断开连接
