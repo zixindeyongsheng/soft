@@ -74,8 +74,8 @@ public:
         for(int i=0;i<serve_airconditionerptr.size();++i)
         {
             Ac toolac;
-            toolac.s=serve_airconditionerptr[i].getstate();
-            toolac.tem=serve_airconditionerptr[i].getnowtemp();
+            toolac.s=serve_airconditionerptr[i].gets();
+            toolac.tem=serve_airconditionerptr[i].getaimtemp();
             toolac.cost=serve_airconditionerptr[i].getfee();
             toolac.wind=serve_airconditionerptr[i].getwindspeed();
             QByteArray buffer(parser.parse(toolac));

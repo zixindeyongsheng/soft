@@ -14,6 +14,7 @@ private:
 	float nowtemp;
 	float fee;
 	int state;//是否正在运作
+    int s;
 	int windspeed;//设定风速
 	string roomnumber;
 	int theinforable;//报文有效性
@@ -76,6 +77,10 @@ public:
     {
         return this->state;
     }
+    int gets()
+    {
+        return this->s;
+    }
 
 	void setaimtemp(float temp)
 	{
@@ -104,5 +109,9 @@ public:
     void setstate(int state)
     {
         this->state=state;
+    }
+    void sets(int s)
+    {
+        this->s=s;
     }
 };
