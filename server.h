@@ -37,7 +37,7 @@ private slots:
                 aimptr=i;
         if(aimptr==-1)
             return;//错误处理
-        Ac toolac=parse(buffer.data());
+        Ac toolac=parser.parse(buffer.data());
 		//此处格式转化解析报文
         if(toolac.type==1)//通告报文
             if(serve_airconditionerptr[i].getstate()==0)
@@ -78,7 +78,7 @@ public:
             toolac.tem=serve_airconditionerptr[i].getnowtemp();
             toolac.cost=serve_airconditionerptr[i].getfee();
             toolac.wind=serve_airconditionerptr[i].getwindspeed();
-            QByteArray buffer(toolac);
+            QByteArray buffer(parser.parse(toolac));
             serve_airconditionerptr[i].air_socket->write(buffer);
         }
 	}
