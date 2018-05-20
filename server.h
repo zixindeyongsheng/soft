@@ -66,7 +66,7 @@ public:
 	server()//构造函数
 	{
 		server_sever = new QTcpServer();
-        server_sever->listen(QHostAddress::Any, port);//
+        server_sever->listen(QHostAddress::Any, 8080);//
         QObject::connect(server_sever, SIGNAL(QTcpServer::newConnection()), this, SLOT(server::server_new_connect()));
 	}
     server(LinkList* thelinklistptr)
