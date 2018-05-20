@@ -1,8 +1,7 @@
-#include "parse.h"
-
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include "parse.hpp"
+#include "include/rapidjson/document.h"
+#include "include/rapidjson/writer.h"
+#include "include/rapidjson/stringbuffer.h"
 #include <string>
 #include <iostream>
 using namespace rapidjson;
@@ -16,10 +15,10 @@ Ac parser::parse(const char* data)
     switch (tp) {
         case 0:
             return Ac(d["room"].GetString(), tp, d["switch"].GetInt(),
-                      d["temperature"].GetDouble(), d["wind"].GetInt());
+                      d["temperature"].GetDouble(), d["wind"].GetInt(), d["cost"].GetDouble());
             break;
         case 1:
-            return Ac("", tp, -1, -1.1, -1);
+            return Ac("", tp, -1, -1.1, -1,0.0);
         default:
             return Ac();
     }

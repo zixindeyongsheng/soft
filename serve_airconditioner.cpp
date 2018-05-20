@@ -1,4 +1,5 @@
 #include"serve_airconditioner.h"
+static int PUTAIRTIME = 1;//制冷周期
 
 int serve_airconditioner::putair(int **feelist,int hoc)
 {

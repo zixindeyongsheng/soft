@@ -4,14 +4,14 @@
 #include<QTcpSocket>
 using namespace std;
 
-static int PUTAIRTIME = 1;//制冷周期
+
 
 
 class serve_airconditioner 
 {
 private:
 	float aimtemp;
-	float nowtemp;
+
 	float fee;
 	int state;//是否正在运作
     int s;
@@ -20,6 +20,7 @@ private:
 	int theinforable;//报文有效性
 	
 public:
+    float nowtemp;
     QTcpSocket* air_socket;
     serve_airconditioner(){
         aimtemp=25;
@@ -38,7 +39,8 @@ public:
 	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度
 	{
-        if(s==1)//空调开启状态
+        if(s == 1)//空调开启状态
+        {
             if (hoc == 1)//制冷温度高于设定则启动，否则开启
                 if (aimtemp < nowtemp)
                     this->state = 1;
@@ -49,6 +51,8 @@ public:
                     this->state = 0;
                 else
                     this->state = 1;
+        }
+
 	}
 	float getaimtemp()
 	{
