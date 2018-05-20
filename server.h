@@ -16,7 +16,7 @@ private:
 	int feelist[2][3];
 	int hoc;//制冷1/制热0
     QTcpServer* server_sever;
-    LinkList thelinklist;
+    LinkList* thelinklistptr;
 
 private slots:
 	void server_new_connect()//监听并连接
@@ -48,7 +48,7 @@ private slots:
         {
             if(serve_airconditionerptr[i].getroomnumber()=="")
                 serve_airconditionerptr[i].setroomnumber(toolac.num);
-            thelinklist.inserthead(toolac);//执行相应的请求创建和插入
+            thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
         }
 	}
 	void server_disconnect()//断开连接
@@ -69,6 +69,11 @@ public:
         server_sever->listen(QHostAddress::Any, port);//
         QObject::connect(server_sever, SIGNAL(QTcpServer::newConnection()), this, SLOT(server::server_new_connect()));
 	}
+    server(LinkList* thelinklistptr)
+    {
+        server();
+        this->thelinklistptr=thelinklistptr;
+    }
     //定期发送（未具有定期功能）
     void server_send()
     {
