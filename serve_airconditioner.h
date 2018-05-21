@@ -31,6 +31,7 @@ public:
         roomnumber="";
         theinforable=0;//报文有效性
         air_socket=NULL;
+        s=0;
     }
     ~serve_airconditioner(){
 

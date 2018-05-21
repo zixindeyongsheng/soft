@@ -10,7 +10,6 @@ Ac parser::parse(const char* data)
 {
     Document d;
     d.Parse(data);
-    std::cout << d["type"].GetInt() << std::endl;
     int tp = d["type"].GetInt();
     switch (tp) {
         case 0:
@@ -18,13 +17,13 @@ Ac parser::parse(const char* data)
                       d["temperature"].GetDouble(), d["wind"].GetInt(), (double)0.0);
             break;
         case 1:
-            return Ac("", tp, -1, -1.1, -1,0.0);
+            return Ac(d["room"].GetString(), tp, -1, d["temperature"].GetDouble(), -1,0.0);
         default:
             return Ac();
     }
 }
 
-const char * parser::parse(Ac st)
+const string parser::parse(Ac st)
 {
     string send ;
 
@@ -33,7 +32,7 @@ const char * parser::parse(Ac st)
     std::string(",\"wind\":") + to_string(st.wind) +
     std::string(",\"cost\":") + to_string(st.cost) +
     std::string("}");
-    return send.c_str();
+    return send;
 }
 
 

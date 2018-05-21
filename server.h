@@ -3,6 +3,8 @@
 #include<vector>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include<QString>
+#include<QByteArray>
 #include<QObject>
 #include"serve_airconditioner.h"
 #include"LINKLIST.h"
@@ -49,7 +51,7 @@ public:
             toolac.tem=serve_airconditionerptr[i].getaimtemp();
             toolac.cost=serve_airconditionerptr[i].getfee();
             toolac.wind=serve_airconditionerptr[i].getwindspeed();
-            QByteArray buffer(parser::parse(toolac));
+            QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
             serve_airconditionerptr[i].air_socket->write(buffer);
         }
 	}
@@ -60,7 +62,7 @@ public:
         toolac.tem=toolariconditioner.getaimtemp();
         toolac.cost=toolariconditioner.getfee();
         toolac.wind=toolariconditioner.getwindspeed();
-        QByteArray buffer(parser::parse(toolac));
+        QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
         toolariconditioner.air_socket->write(buffer);
     }
 	

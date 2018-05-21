@@ -35,8 +35,9 @@ void server::server_receive()//接收
     {
         if(toolairconditioner.getroomnumber()=="")
             toolairconditioner.setroomnumber(toolac.num);
-        thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
+        //thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
     }
+    server_send();
 }
 void server::server_disconnect()//断开连接
 {

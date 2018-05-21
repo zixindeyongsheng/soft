@@ -7,6 +7,6 @@ using namespace std;
 class parser{
 public:
     static Ac parse(const char*);
-    static const char* parse(Ac);
+    static const string parse(Ac);
 
 };
