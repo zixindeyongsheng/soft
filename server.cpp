@@ -6,7 +6,6 @@ void server::server_new_connect()//监听并连接
     serve_airconditioner toolair;
     toolair.air_socket = server_sever->nextPendingConnection();
     serve_airconditionerptr.push_back(toolair);
-
     connect(toolair.air_socket, &QTcpSocket::readyRead, this, &server::server_receive);
     connect(toolair.air_socket, &QTcpSocket::disconnected, this, &server::server_disconnect);
 }

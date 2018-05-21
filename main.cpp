@@ -5,12 +5,9 @@
 
 int main(int argc, char* argv[])
 {
-    server toolserver;
-    while(true)
-    {
-        toolserver.server_send();
-    }
+    QApplication a(argc, argv);
 
-    system("pause");
-    return 0;
+    server toolserver;
+
+    return a.exec();
 }

@@ -33,8 +33,7 @@ public:
         air_socket=NULL;
     }
     ~serve_airconditioner(){
-        if(air_socket!=NULL)
-            delete air_socket;
+
     }
 	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度

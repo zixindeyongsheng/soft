@@ -7,31 +7,31 @@ LinkList::LinkList() {
 	current0 = listzero.end();
 	current1 = listone.end();
 	current2 = listtwo.end();
-	running = 5;//æœåŠ¡èƒ½åŠ›5
+	running = 5;//·şÎñÄÜÁ¦5
 }
 
-void LinkList::inserthead(Ac val)//å‰æ’å…¥èŠ‚ç‚¹,int jä¸ºsearchåçš„æ’å…¥ä½ç½®
+void LinkList::inserthead(Ac val)//Ç°²åÈë½Úµã,int jÎªsearchºóµÄ²åÈëÎ»ÖÃ
 {
 	int x;
 	LISTINT::iterator j;
 	map<string, LISTINT::iterator>::iterator it;
-	if (val.wind == 0) {//é£é€Ÿä¸ºé›¶
-		j = current0;//æ’å…¥ä½ç½®ä¸€å®šä¸ºæœåŠ¡å¤´å‰
-	    it = mymap0.find(val.num);//æŸ¥é‡
-		if (it == mymap0.end()) {//ä¸é‡å¤
-			if (listzero.empty()||j==listzero.end()) {//ä¸ºç©ºæˆ–æœåŠ¡åœ¨å½“å‰çš„å¤´ç›´æ¥æ’å…¥åˆ°å¤´
+	if (val.wind == 0) {//·çËÙÎªÁã
+		j = current0;//²åÈëÎ»ÖÃÒ»¶¨Îª·şÎñÍ·Ç°
+	    it = mymap0.find(val.num);//²éÖØ
+		if (it == mymap0.end()) {//²»ÖØ¸´
+			if (listzero.empty()||j==listzero.end()) {//Îª¿Õ»ò·şÎñÔÚµ±Ç°µÄÍ·Ö±½Ó²åÈëµ½Í·
 					listzero.push_back(val);
 					j = listzero.end();
 					j--;
 				}
 				else{
 					listzero.insert(j, val);
-					j--;//æ’å…¥èŠ‚ç‚¹çš„ä½ç½®
+					j--;//²åÈë½ÚµãµÄÎ»ÖÃ
 				}
 				mymap0[val.num] = j;
-				//val.state = 0;//è®¾ç½®çŠ¶æ€ä¸ºä¸ºæœåŠ¡
+				//val.state = 0;//ÉèÖÃ×´Ì¬ÎªÎª·şÎñ
 		}
-		it = mymap1.find(val.num);//æ˜¯å¦åœ¨å…¶ä»–é“¾è¡¨ä¸­
+		it = mymap1.find(val.num);//ÊÇ·ñÔÚÆäËûÁ´±íÖĞ
 		if (it != mymap1.end()) {
 			mymap1[val.num] = listone.erase(mymap1[val.num]);
 			mymap1.erase(val.num);
@@ -43,22 +43,22 @@ void LinkList::inserthead(Ac val)//å‰æ’å…¥èŠ‚ç‚¹,int jä¸ºsearchåçš„æ’å…¥ä½
 		}
 	}
 	else if (val.wind == 1) {
-		it = mymap1.find(val.num);//æŸ¥é‡
-	    j = current1;//æ’å…¥ä½ç½®ä¸€å®šä¸ºæœåŠ¡å¤´å‰
-		if (it == mymap1.end()) {//ä¸é‡å¤
-			if (listone.empty()|| j == listone.end()) {//ä¸ºç©ºæˆ–æœåŠ¡åœ¨å½“å‰çš„å¤´ç›´æ¥æ’å…¥åˆ°å¤´
+		it = mymap1.find(val.num);//²éÖØ
+	    j = current1;//²åÈëÎ»ÖÃÒ»¶¨Îª·şÎñÍ·Ç°
+		if (it == mymap1.end()) {//²»ÖØ¸´
+			if (listone.empty()|| j == listone.end()) {//Îª¿Õ»ò·şÎñÔÚµ±Ç°µÄÍ·Ö±½Ó²åÈëµ½Í·
 				listone.push_back(val);
 				j = listone.end();
 				j--;
 			}
 			else {
 				listone.insert(j, val);
-				j--;//æ’å…¥èŠ‚ç‚¹çš„ä½ç½®
+				j--;//²åÈë½ÚµãµÄÎ»ÖÃ
 			}
 			mymap1[val.num] = j;
-			//val.state = 0;//è®¾ç½®çŠ¶æ€ä¸ºä¸ºæœåŠ¡
+			//val.state = 0;//ÉèÖÃ×´Ì¬ÎªÎª·şÎñ
 		}
-		it = mymap0.find(val.num);//æ˜¯å¦åœ¨å…¶ä»–é“¾è¡¨ä¸­
+		it = mymap0.find(val.num);//ÊÇ·ñÔÚÆäËûÁ´±íÖĞ
 		if (it != mymap0.end()) {
 			mymap0[val.num] = listzero.erase(mymap0[val.num]);
 			mymap0.erase(val.num);
@@ -70,20 +70,20 @@ void LinkList::inserthead(Ac val)//å‰æ’å…¥èŠ‚ç‚¹,int jä¸ºsearchåçš„æ’å…¥ä½
 		}
 	}
 	else {
-		it = mymap2.find(val.num);//æŸ¥é‡
-		j = current2;//æ’å…¥ä½ç½®ä¸€å®šä¸ºæœåŠ¡å¤´å‰
-		if (it == mymap2.end()) {//ä¸é‡å¤
-			if (listtwo.empty()||j == listtwo.end()) {//ä¸ºç©ºæˆ–æœåŠ¡åœ¨å½“å‰çš„å¤´ç›´æ¥æ’å…¥åˆ°å¤´
+		it = mymap2.find(val.num);//²éÖØ
+		j = current2;//²åÈëÎ»ÖÃÒ»¶¨Îª·şÎñÍ·Ç°
+		if (it == mymap2.end()) {//²»ÖØ¸´
+			if (listtwo.empty()||j == listtwo.end()) {//Îª¿Õ»ò·şÎñÔÚµ±Ç°µÄÍ·Ö±½Ó²åÈëµ½Í·
 				listtwo.push_back(val);
 				j = listtwo.end();
 				j--;
 			}
 			else {
 				listtwo.insert(j, val);
-				j--;//æ’å…¥èŠ‚ç‚¹çš„ä½ç½®
+				j--;//²åÈë½ÚµãµÄÎ»ÖÃ
 			}
 			mymap2[val.num] = j;
-			//val.state = 0;//è®¾ç½®çŠ¶æ€ä¸ºä¸ºæœåŠ¡
+			//val.state = 0;//ÉèÖÃ×´Ì¬ÎªÎª·şÎñ
 		}
 		if (it != mymap0.end()) {
 			mymap0[val.num] = listzero.erase(mymap0[val.num]);
@@ -99,50 +99,50 @@ void LinkList::inserthead(Ac val)//å‰æ’å…¥èŠ‚ç‚¹,int jä¸ºsearchåçš„æ’å…¥ä½
 }
 
 
-/*void LinkList::insert(Ac val)//åæ’å…¥èŠ‚ç‚¹
+/*void LinkList::insert(Ac val)//ºó²åÈë½Úµã
 {
 	int x;
 	LISTINT::iterator j;
 	j = search(val);
-	if (val.wind == 0) {//é£é€Ÿä¸ºé›¶
-		if (listzero.empty()) {//ä¸ºç©ºç›´æ¥æ’å…¥åˆ°å°¾éƒ¨
+	if (val.wind == 0) {//·çËÙÎªÁã
+		if (listzero.empty()) {//Îª¿ÕÖ±½Ó²åÈëµ½Î²²¿
 			listzero.push_back(val);
 			j = listzero.begin();
 		}
 		else {
 			listzero.insert(j, val);
-			j--;//æ’å…¥èŠ‚ç‚¹çš„ä½ç½®
+			j--;//²åÈë½ÚµãµÄÎ»ÖÃ
 		}
 		mymap0[val.num] = j;
-		//val.state = 0;//è®¾ç½®çŠ¶æ€ä¸ºä¸ºæœåŠ¡
+		//val.state = 0;//ÉèÖÃ×´Ì¬ÎªÎª·şÎñ
 	}
 	else if (val.wind == 1) {
-		if (listone.empty()) {//ä¸ºç©ºç›´æ¥æ’å…¥åˆ°å°¾éƒ¨
+		if (listone.empty()) {//Îª¿ÕÖ±½Ó²åÈëµ½Î²²¿
 			listone.push_back(val);
 			j = listone.begin();
 		}
 		else {
 			listone.insert(j, val);
-			j--;//æ’å…¥èŠ‚ç‚¹çš„ä½ç½®
+			j--;//²åÈë½ÚµãµÄÎ»ÖÃ
 		}
 		mymap1[val.num] = j;
-		//val.state = 0;//è®¾ç½®çŠ¶æ€ä¸ºä¸ºæœåŠ¡
+		//val.state = 0;//ÉèÖÃ×´Ì¬ÎªÎª·şÎñ
 	}
 	else {
-		if (listtwo.empty()) {//ä¸ºç©ºç›´æ¥æ’å…¥åˆ°å°¾éƒ¨
+		if (listtwo.empty()) {//Îª¿ÕÖ±½Ó²åÈëµ½Î²²¿
 			listtwo.push_back(val);
 			j = listtwo.begin();
 		}
 		else {
 			listtwo.insert(j, val);
-			j--;//æ’å…¥èŠ‚ç‚¹çš„ä½ç½®
+			j--;//²åÈë½ÚµãµÄÎ»ÖÃ
 		}
 		mymap2[val.num] = j;
-		//val.state = 0;//è®¾ç½®çŠ¶æ€ä¸ºä¸ºæœåŠ¡
+		//val.state = 0;//ÉèÖÃ×´Ì¬ÎªÎª·şÎñ
 	}
 }*/
 
-void LinkList::remov(Ac val)//åˆ é™¤èŠ‚ç‚¹
+void LinkList::remov(Ac val)//É¾³ı½Úµã
 {
 	LISTINT::iterator j;
 	if (val.wind == 0) {
@@ -163,29 +163,157 @@ void LinkList::remov(Ac val)//åˆ é™¤èŠ‚ç‚¹
 }
 
 
-int LinkList::length()//é“¾è¡¨é•¿åº¦
+int LinkList::length()//Á´±í³¤¶È
 {
 	return listone.size();
 }
 
-LISTINT::iterator  LinkList::search(int wind)//æœç´¢æœåŠ¡èŠ‚ç‚¹
+LISTINT::iterator  LinkList::search()//ËÑË÷·şÎñ½Úµã
 {
 	LISTINT::iterator j;
-	int i;
-	if (wind == 0) {
-		j = current0;
-		if (listzero.empty()) {
-			cout << "æ— éœ€æœåŠ¡é¡¹ç›®" << endl;
+	int i = 0;
+	listserve.clear();//É¾³ıËùÓĞÒÑÔÚÔªËØ
+	if (listtwo.empty()) {//Èç¹û·çËÙ2Îª¿Õ
+		if (listone.empty()) {//Èç¹û·çËÙ1Îª¿Õ
+			return listzero.end();
 		}
-		else if (j == listzero.end()) {
-			j = listzero.begin();
-			return j;
-		}
-		else {
-			for (i = 1; i < running; i++)
-				j++;
-			return j;
-		}
+		else {//·çËÙ1²»Îª¿Õ
+			j = current1;
+			if (j == listone.end()) {//Èç¹û·şÎñ½Úµã¶¨Î»ÔÚÎ²½Úµã
+				j = listone.begin();
+				for (i = 1; i < running; i++) {
+					listserve.push_back(*j);
+					j++;
+					if (j == listone.end()) {//·şÎñÊıÁ¿Ğ¡ÓÚ·şÎñÄÜÁ¦
+						current1 = listserve.begin;//ÏÂÒ»´Î´ÓÍ··şÎñ
+						return listserve.begin();
+						return;
+					}
+					else {
+						current1 = ++j;
+					}
+				}
+				return listserve.begin();
+			}
+			else {//·şÎñ½Úµã²»ÔÚÎ²½Úµã
+				j = current1;
+				for (i = 1; i < running; i++) {
+					listserve.push_back(*j);
+					j++;
+					if (j == listone.end()) {//Ê£Óà·şÎñÊıÁ¿Ğ¡ÓÚ·şÎñÄÜÁ¦
+						current1 = listserve.begin;//ÏÂÒ»´Î´ÓÍ··şÎñ
+					}
+					else {
+						current1 = ++j;
+					}
+				}
 
+			}
+		}
+	}
+	else {//·çËÙ2²»Îª¿Õ
+		j = current2;
+		if (j == listtwo.end()) {//µÚÒ»´Îµ÷ÓÃ·çËÙ2Á´±í
+			j = listtwo.begin();
+			if (/*j == listtwo.end()&&*/listtwo.size() < running) {//·çËÙ2ÊıÁ¿²»¹»
+				for (j = listtwo.begin(); j != listtwo.end(); j++) {
+					listserve.push_back(*j);
+					i++;
+				}
+				current2 = listtwo.begin();
+				j = current1;
+				if (j == listone.end()) {//Èç¹û·şÎñ½Úµã¶¨Î»ÔÚÎ²½Úµã
+					j = listone.begin();
+					for (; i < running; i++) {
+						listserve.push_back(*j);
+						j++;
+						if (j == listone.end()) {//·şÎñÊıÁ¿Ğ¡ÓÚ·şÎñÄÜÁ¦
+							current1 = listserve.begin;//ÏÂÒ»´Î´ÓÍ··şÎñ
+							return listserve.begin();
+							return;
+						}
+						else {
+							current1 = ++j;
+						}
+					}
+				}
+				else {//·şÎñ½Úµã²»ÔÚÎ²½Úµã
+					if (listone.size() > running - i) {
+						for (; i < running; i++) {
+							listserve.push_back(*j);
+							j++;
+							if (j == listone.end()) {//Ê£Óà·şÎñÊıÁ¿Ğ¡ÓÚ·şÎñÄÜÁ¦
+								j = listserve.begin();//ÏÂÒ»´Î´ÓÍ··şÎñ
+								current1 = j;
+							}
+							else {
+								current1 = ++j;
+							}
+						}
+
+					}
+					else {
+						for (j = listone.begin(); j != listone.end(); j++) {
+							listserve.push_back(*j);
+							current1 = listone.begin();
+						}
+					}
+					return listserve.begin();
+				}
+			}
+			else {//·çËÙ2ÊıÁ¿×ã¹»
+				current2 = ++j;
+			}
+			return listserve.begin();
+		}
+		else {//·şÎñ²»ÔÚÎ²½Úµã
+			j = current2;
+			if (listtwo.size() > running) {
+				for (i = 1; i < running; i++) {
+					listserve.push_back(*j);
+					j++;
+					if (j == listtwo.end()) {
+						j = listtwo.begin();
+					}
+				}
+				current2 = ++j;
+			}
+			else {
+				for (j = listtwo.begin(); j != listtwo.end(); j++) {
+					i++;
+					listserve.push_back(*j);
+				}
+				j = current1;
+				if (j == listone.end()) {//Èç¹û·şÎñ½Úµã¶¨Î»ÔÚÎ²½Úµã
+					j = listone.begin();
+					for (; i < running; i++) {
+						listserve.push_back(*j);
+						j++;
+						if (j == listone.end()) {//·şÎñÊıÁ¿Ğ¡ÓÚ·şÎñÄÜÁ¦
+							current1 = listserve.begin;//ÏÂÒ»´Î´ÓÍ··şÎñ
+							return listserve.begin();
+							return;
+						}
+						else {
+							current1 = ++j;
+						}
+					}
+				}
+				else {//·şÎñ½Úµã²»ÔÚÎ²½Úµã
+					if (listone.size() > running - i) {
+						for (; i < running; i++) {
+							listserve.push_back(*j);
+							j++;
+							if (j == listone.end()) {//Ê£Óà·şÎñÊıÁ¿Ğ¡ÓÚ·şÎñÄÜÁ¦
+								j = listserve.begin();//ÏÂÒ»´Î´ÓÍ··şÎñ
+								current1 = j;
+							}
+							else {
+								current1 = ++j;
+							}
+						}
+					}
+				}
+			}
 	}
 }

@@ -9,46 +9,46 @@
 #include <map>
 using namespace std;
 
-//åˆ›å»ºä¸€ä¸ªlistå®¹å™¨çš„å®ä¾‹LISTINT   
-
+//´´½¨Ò»¸ölistÈİÆ÷µÄÊµÀıLISTINT   
+typedef list<Ac> LISTINT;
 
 class Ac {
 public:
-	string num;//IPæˆ–æˆ¿é—´å·
-	int type;//æŠ¥æ–‡ç§ç±»
-	int s;//å¼€å…³
-	double tem;//æ¸©åº¦
-	int wind;//é£é€Ÿ
-	double cost;//é‡‘é¢
-	//int state;//è¿è¡ŒçŠ¶æ€
-	//int j;//é“¾è¡¨ä¸­çš„ä½ç½®ï¼Œé»˜è®¤ä¸º0ï¼ˆä¸åœ¨é“¾è¡¨ä¸­ï¼‰
+	string num;//IP»ò·¿¼äºÅ
+	int type;//±¨ÎÄÖÖÀà
+	int s;//¿ª¹Ø
+	double tem;//ÎÂ¶È
+	int wind;//·çËÙ
+	double cost;//½ğ¶î
+	//int state;//ÔËĞĞ×´Ì¬
+	//int j;//Á´±íÖĞµÄÎ»ÖÃ£¬Ä¬ÈÏÎª0£¨²»ÔÚÁ´±íÖĞ£©
 	Ac() {}
-    Ac(string n, int t, int ss, double temp, int w,double c) :num(n), type(t), s(ss), tem(temp), wind(w),cost(c) {}// state(s) {};
+	Ac(string n, int t, int ss, double temp, int w, int s,double c) :num(n), type(t), s(ss), tem(temp), wind(w),cost(c) {}// state(s) {};
 
 };
 
-typedef list<Ac> LISTINT;
 
 class LinkList {
 public:
 	LinkList();
-	void inserthead(Ac val);//é“¾è¡¨å¤´éƒ¨æ’å…¥èŠ‚ç‚¹
-	//void insert(Ac val);//æ’å…¥èŠ‚ç‚¹
-	void remov(Ac val);//åˆ é™¤èŠ‚ç‚¹
-	LISTINT::iterator search(int wind);//æœç´¢æœåŠ¡èŠ‚ç‚¹
-	int length();//é“¾è¡¨é•¿åº¦
+	void inserthead(Ac val);//Á´±íÍ·²¿²åÈë½Úµã
+	//void insert(Ac val);//²åÈë½Úµã
+	void remov(Ac val);//É¾³ı½Úµã
+	LISTINT::iterator search();//ËÑË÷·şÎñ½Úµã
+	int length();//Á´±í³¤¶È
 private:
-	//åˆ›å»ºä¸€ä¸ªlistå®¹å™¨çš„å®ä¾‹LISTINT   
+	//´´½¨Ò»¸ölistÈİÆ÷µÄÊµÀıLISTINT   
 	LISTINT listone;
 	LISTINT listzero;
 	LISTINT listtwo;
+	LISTINT listserve;
 	map<string, LISTINT::iterator> mymap1;
 	map<string, LISTINT::iterator>mymap2;
 	map<string, LISTINT::iterator>mymap0;
-	LISTINT::iterator current0;//ä¿å­˜æœåŠ¡çš„ç¬¬ä¸€ä¸ªæŒ‡é’ˆ
+	LISTINT::iterator current0;//±£´æ·şÎñµÄµÚÒ»¸öÖ¸Õë
 	LISTINT::iterator current2;
 	LISTINT::iterator current1;
-	int running;//æœåŠ¡èƒ½åŠ›ä¸ªæ•°
+	int running;//·şÎñÄÜÁ¦¸öÊı
 };
 #endif
 
@@ -56,9 +56,9 @@ private:
 /*
 
 hash_map<int, string> mymap = new hash_map<int, string>;
-*mymap[9527]="å”ä¼¯è™ç‚¹ç§‹é¦™";
-*mymap[1000000]="ç™¾ä¸‡å¯Œç¿çš„ç”Ÿæ´»";
-*mymap[10000]="ç™½é¢†çš„å·¥èµ„åº•çº¿";
+*mymap[9527]="ÌÆ²®»¢µãÇïÏã";
+*mymap[1000000]="°ÙÍò¸»ÎÌµÄÉú»î";
+*mymap[10000]="°×ÁìµÄ¹¤×Êµ×Ïß";
 ...
 if(mymap.find(10000) != mymap.end()){
 */

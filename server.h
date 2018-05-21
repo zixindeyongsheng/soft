@@ -1,7 +1,8 @@
 #include<iostream>
 #include<string.h>
 #include<vector>
-#include<QTcpServer>
+#include <QTcpServer>
+#include <QTcpSocket>
 #include<QObject>
 #include"serve_airconditioner.h"
 #include"LINKLIST.h"
@@ -13,19 +14,18 @@ class server:public QObject
 Q_OBJECT
 
 private:
-	vector<serve_airconditioner> serve_airconditionerptr;
-	int serve_airconditionernum;
-	int feelist[2][3];
-	int hoc;//制冷1/制热0
+    vector<serve_airconditioner> serve_airconditionerptr;
+    int serve_airconditionernum;
+    int feelist[2][3];
+    int hoc;//制冷1/制热0
     QTcpServer* server_sever;
     LinkList* thelinklistptr;
 public:
 	server()//构造函数
 	{
-        server_sever = new QTcpServer(this);
+        server_sever = new QTcpServer();
         server_sever->listen(QHostAddress::Any, 8080);
         connect(server_sever, &QTcpServer::newConnection, this, &server::server_new_connect);
-        //emit(server_sever->newConnection());
 
     }
     server(LinkList* thelinklistptr)
@@ -35,8 +35,9 @@ public:
     }
     ~server()
     {
-        if(server_sever!=NULL)
-            delete server_sever;
+
+        server_sever->close();
+        server_sever->deleteLater();
     }
     //定期发送（未具有定期功能）
     void server_send()
