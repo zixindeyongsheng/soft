@@ -15,7 +15,7 @@ Ac parser::parse(const char* data)
     switch (tp) {
         case 0:
             return Ac(d["room"].GetString(), tp, d["switch"].GetInt(),
-                      d["temperature"].GetDouble(), d["wind"].GetInt(), d["cost"].GetDouble());
+                      d["temperature"].GetDouble(), d["wind"].GetInt(), (double)0.0);
             break;
         case 1:
             return Ac("", tp, -1, -1.1, -1,0.0);

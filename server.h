@@ -40,7 +40,7 @@ public:
         server_sever->deleteLater();
     }
     //定期发送（未具有定期功能）
-    void server_send()
+    void server_send()//全部发送
     {
         for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
         {
@@ -53,6 +53,16 @@ public:
             serve_airconditionerptr[i].air_socket->write(buffer);
         }
 	}
+    void server_send(serve_airconditioner toolariconditioner)//单个发送
+    {
+        Ac toolac;
+        toolac.s=toolariconditioner.gets();
+        toolac.tem=toolariconditioner.getaimtemp();
+        toolac.cost=toolariconditioner.getfee();
+        toolac.wind=toolariconditioner.getwindspeed();
+        QByteArray buffer(parser::parse(toolac));
+        toolariconditioner.air_socket->write(buffer);
+    }
 	
 
 	//定期制冷

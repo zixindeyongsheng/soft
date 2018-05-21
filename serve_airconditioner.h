@@ -18,9 +18,9 @@ private:
 	int windspeed;//设定风速
 	string roomnumber;
 	int theinforable;//报文有效性
-	
-public:
     float nowtemp;
+public:
+
     QTcpSocket* air_socket;
     serve_airconditioner(){
         aimtemp=25;
@@ -85,6 +85,7 @@ public:
     {
         return this->s;
     }
+
 
 	void setaimtemp(float temp)
 	{
