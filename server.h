@@ -7,6 +7,7 @@
 #include<QString>
 #include<QByteArray>
 #include<QObject>
+#include<QDebug>
 #include"serve_airconditioner.h"
 #include"LINKLIST.h"
 #include"parse.hpp"
@@ -58,6 +59,7 @@ public:
             toolac.wind=serve_airconditionerptr[i].getwindspeed();
             QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
             serve_airconditionerptr[i].air_socket->write(buffer);
+            qDebug()<<(buffer.toStdString()).data();
         }
 	}
     void server_send(serve_airconditioner toolariconditioner)//单个发送
@@ -69,6 +71,7 @@ public:
         toolac.wind=toolariconditioner.getwindspeed();
         QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
         toolariconditioner.air_socket->write(buffer);
+        qDebug()<<(buffer.toStdString()).data();
     }
 	
 

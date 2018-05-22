@@ -8,6 +8,7 @@ void server::server_new_connect()//监听并连接
     serve_airconditionerptr.push_back(toolair);
     connect(toolair.air_socket, &QTcpSocket::readyRead, this, &server::server_receive);
     connect(toolair.air_socket, &QTcpSocket::disconnected, this, &server::server_disconnect);
+    qDebug()<<"an user connected!";
 }
 
 void server::server_receive()//接收
@@ -15,7 +16,7 @@ void server::server_receive()//接收
     QByteArray buffer;
     buffer = ((QTcpSocket*)(sender()))->readAll();
     QTcpSocket* toolsocket=(QTcpSocket*)(sender());
-    string toolstring=((QString)(buffer.data())).toStdString();
+    string toolstring=buffer.toStdString();
     vector<string> desk;
     split(toolstring,"}",desk);
     int aimptr=-1;
@@ -53,6 +54,7 @@ void server::server_disconnect()//断开连接
     for (unsigned int i = 0; i < serve_airconditionerptr.size(); ++i)
         if (serve_airconditionerptr[i].air_socket == toolsocket)
             this->serve_airconditionerptr.erase(serve_airconditionerptr.begin() + i);
+    qDebug()<<"an user disconnected!";
 }
 
 
@@ -60,12 +62,13 @@ void server::monitor_new_connect(){
     this->server_monitor_socket=this->server_monitor->nextPendingConnection();
     connect(this->server_monitor_socket,&QTcpSocket::readyRead,this,&server::monitor_receive);
     connect(this->server_monitor_socket,&QTcpSocket::disconnected,this,&server::monitor_disconnect);
+    qDebug()<<"monitor connected";
 }
 
 void server::monitor_receive(){
     QByteArray buffer;
     buffer = ((QTcpSocket*)(sender()))->readAll();
-    string toolstring=((QString)(buffer.data())).toStdString();
+    string toolstring=buffer.toStdString();
     vector<string> desk;
     split(toolstring,",",desk);
     string roomarray="{\"room\":[";
@@ -105,9 +108,10 @@ void server::monitor_receive(){
         sendingstring=roomarray+"]"+",\"roomInfo\":\"\"}";
     QByteArray sendingbuffer=(QString::fromStdString(sendingstring)).toLatin1();
     this->server_monitor_socket->write(sendingbuffer);
+    qDebug()<<sendingstring.data();
 }
 void server::monitor_disconnect(){
-
+    qDebug()<<"monitor disconnected";
 }
 
 
