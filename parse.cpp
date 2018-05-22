@@ -10,6 +10,8 @@ Ac parser::parse(const char* data)
 {
     Document d;
     d.Parse(data);
+    //assert(!d.HasParseError());
+    //assert(!d.HasMember("type"));
     int tp = d["type"].GetInt();
     switch (tp) {
         case 0:
@@ -17,7 +19,7 @@ Ac parser::parse(const char* data)
                       d["temperature"].GetDouble(), d["wind"].GetInt(), (double)0.0);
             break;
         case 1:
-            return Ac(d["room"].GetString(), tp, -1, d["temperature"].GetDouble(), -1,0.0);
+            return Ac("", tp, -1, d["temperature"].GetDouble(), -1,0.0);
         default:
             return Ac();
     }

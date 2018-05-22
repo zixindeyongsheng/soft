@@ -1,5 +1,5 @@
 #include"server.h"
-
+void split(const string& src, const string& separator, vector<string>& dest);
 
 void server::server_new_connect()//监听并连接
 {
@@ -14,6 +14,9 @@ void server::server_receive()//接收
     QByteArray buffer;
     buffer = ((QTcpSocket*)(sender()))->readAll();
     QTcpSocket* toolsocket=(QTcpSocket*)(sender());
+    string toolstring=((QString)(buffer.data())).toStdString();
+    vector<string> desk;
+    split(toolstring,"}",desk);
     int aimptr=-1;
     serve_airconditioner *toolariconditionerptr2;
     for(unsigned int i=0;i<serve_airconditionerptr.size() && aimptr==-1;++i)
@@ -25,20 +28,22 @@ void server::server_receive()//接收
     if(aimptr==-1)
         return;//错误处理
     serve_airconditioner& toolairconditioner=*toolariconditionerptr2;
-    Ac toolac=parser::parse(buffer.data());
-    //此处格式转化解析报文
-    if(toolac.type==1)//通告报文
-        if(toolairconditioner.getstate()==0)
-            toolairconditioner.setnowtemp(toolac.tem);//不在运行则温度随房间变化
-        else{}
-    else//请求报文
+    for(unsigned int i=0;i<desk.size();++i)
     {
-        if(toolairconditioner.getroomnumber()=="")
-            toolairconditioner.setroomnumber(toolac.num);
-        thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
+        Ac toolac=parser::parse((desk[i]+"}").data());
+        //此处格式转化解析报文
+        if(toolac.type==1)//通告报文
+            if(toolairconditioner.getstate()==0)
+                toolairconditioner.setnowtemp(toolac.tem);//不在运行则温度随房间变化
+            else{}
+        else//请求报文
+        {
+            if(toolairconditioner.getroomnumber()=="")
+                toolairconditioner.setroomnumber(toolac.num);
+            //thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
+        }
+        server_send(toolairconditioner);
     }
-    server_send(toolairconditioner);
-    ((QTcpSocket*)(sender()))->readAll();//*****防止接收到多个包，有可能导致报文丢失
 }
 void server::server_disconnect()//断开连接
 {
@@ -47,3 +52,75 @@ void server::server_disconnect()//断开连接
         if (serve_airconditionerptr[i].air_socket == toolsocket)
             this->serve_airconditionerptr.erase(serve_airconditionerptr.begin() + i);
 }
+
+
+void server::monitor_new_connect(){
+    this->server_monitor_socket=this->server_monitor->nextPendingConnection();
+    connect(this->server_monitor_socket,&QTcpSocket::readyRead,this,&server::monitor_receive);
+    connect(this->server_monitor_socket,&QTcpSocket::disconnected,this,&server::monitor_disconnect);
+}
+void server::monitor_receive(){
+    QByteArray buffer;
+    buffer = ((QTcpSocket*)(sender()))->readAll();
+    string toolstring=((QString)(buffer.data())).toStdString();
+    vector<string> desk;
+    split(toolstring,",",desk);
+    string roomarray="{\"room\":[";
+    string switchinfo="\"switch\":";
+    string tgtinfo="\"tgtTemrature\":";
+    string crtinfo="\"crtTemperature\":";
+    string windinfo="\"wind\":";
+    string costinfo="\"cost\":";
+    for(int i=0;i<serve_airconditionerptr.size();++i)
+    {
+        int count=0;
+        serve_airconditioner& toolairconditioner=serve_airconditionerptr[i];
+        string roomstring=toolairconditioner.getroomnumber();
+        if(roomstring!="")
+        {
+            if(count==0)
+                count=1;
+            else
+                printf(",");
+            roomarray+="\""+roomstring+"\"";
+            if(roomstring==desk[1])
+            {
+                switchinfo+=to_string(toolairconditioner.gets());
+                tgtinfo+=to_string(toolairconditioner.getaimtemp());
+                crtinfo+=to_string(toolairconditioner.getnowtemp());
+                windinfo+=to_string(toolairconditioner.getwindspeed());
+                costinfo+=to_string(toolairconditioner.getfee());
+            }
+        }
+    }
+    string sendingstring=roomarray+"]"+",\"roomInfo\":{"+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
+    QByteArray sendingbuffer=(QString::fromStdString(sendingstring)).toLatin1();
+    this->server_monitor_socket->write(sendingbuffer);
+}
+void server::monitor_disconnect(){
+
+}
+
+
+void split(const string& src, const string& separator, vector<string>& dest)
+ {
+     string str = src;
+     string substring;
+     string::size_type start = 0, index;
+
+     do
+     {
+         index = str.find_first_of(separator,start);
+         if (index != string::npos)
+         {
+             substring = str.substr(start,index-start);
+             dest.push_back(substring);
+            start = str.find_first_not_of(separator,index);
+             if (start == string::npos) return;
+         }
+     }while(index != string::npos);
+
+     //the last token
+     substring = str.substr(start);
+     dest.push_back(substring);
+ }
