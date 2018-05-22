@@ -9,6 +9,7 @@ void server::server_new_connect()//监听并连接
     connect(toolair.air_socket, &QTcpSocket::readyRead, this, &server::server_receive);
     connect(toolair.air_socket, &QTcpSocket::disconnected, this, &server::server_disconnect);
 }
+
 void server::server_receive()//接收
 {
     QByteArray buffer;
@@ -45,6 +46,7 @@ void server::server_receive()//接收
         server_send(toolairconditioner);
     }
 }
+
 void server::server_disconnect()//断开连接
 {
     QTcpSocket* toolsocket=(QTcpSocket*)(sender());
@@ -59,6 +61,7 @@ void server::monitor_new_connect(){
     connect(this->server_monitor_socket,&QTcpSocket::readyRead,this,&server::monitor_receive);
     connect(this->server_monitor_socket,&QTcpSocket::disconnected,this,&server::monitor_disconnect);
 }
+
 void server::monitor_receive(){
     QByteArray buffer;
     buffer = ((QTcpSocket*)(sender()))->readAll();
@@ -66,12 +69,13 @@ void server::monitor_receive(){
     vector<string> desk;
     split(toolstring,",",desk);
     string roomarray="{\"room\":[";
-    string switchinfo="\"switch\":";
-    string tgtinfo="\"tgtTemrature\":";
-    string crtinfo="\"crtTemperature\":";
-    string windinfo="\"wind\":";
-    string costinfo="\"cost\":";
-    for(int i=0;i<serve_airconditionerptr.size();++i)
+    string switchinfo;
+    string tgtinfo;
+    string crtinfo;
+    string windinfo;
+    string costinfo;
+    int finded=0;
+    for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
     {
         int count=0;
         serve_airconditioner& toolairconditioner=serve_airconditionerptr[i];
@@ -85,15 +89,20 @@ void server::monitor_receive(){
             roomarray+="\""+roomstring+"\"";
             if(roomstring==desk[1])
             {
-                switchinfo+=to_string(toolairconditioner.gets());
-                tgtinfo+=to_string(toolairconditioner.getaimtemp());
-                crtinfo+=to_string(toolairconditioner.getnowtemp());
-                windinfo+=to_string(toolairconditioner.getwindspeed());
-                costinfo+=to_string(toolairconditioner.getfee());
+                switchinfo="\"switch\":"+to_string(toolairconditioner.gets());
+                tgtinfo="\"tgtTemrature\":"+to_string(toolairconditioner.getaimtemp());
+                crtinfo="\"crtTemperature\":"+to_string(toolairconditioner.getnowtemp());
+                windinfo="\"wind\":"+to_string(toolairconditioner.getwindspeed());
+                costinfo="\"cost\":"+to_string(toolairconditioner.getfee());
+                finded=1;
             }
         }
     }
-    string sendingstring=roomarray+"]"+",\"roomInfo\":{"+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
+    string sendingstring;
+    if(finded==1)
+        sendingstring=roomarray+"]"+",\"roomInfo\":{"+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
+    else
+        sendingstring=roomarray+"]"+",\"roomInfo\":\"\"}";
     QByteArray sendingbuffer=(QString::fromStdString(sendingstring)).toLatin1();
     this->server_monitor_socket->write(sendingbuffer);
 }
