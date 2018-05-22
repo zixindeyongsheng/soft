@@ -37,7 +37,8 @@ void server::server_receive()//接收
             toolairconditioner.setroomnumber(toolac.num);
         thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
     }
-    server_send();
+    server_send(toolairconditioner);
+    ((QTcpSocket*)(sender()))->readAll();//*****防止接收到多个包，有可能导致报文丢失
 }
 void server::server_disconnect()//断开连接
 {
