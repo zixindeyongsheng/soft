@@ -77,6 +77,7 @@ void server::monitor_receive(){
     string crtinfo;
     string windinfo;
     string costinfo;
+    string roomstringinfo;
     int finded=0;
     for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
     {
@@ -92,6 +93,7 @@ void server::monitor_receive(){
             roomarray+="\""+roomstring+"\"";
             if(roomstring==desk[1])
             {
+                roomstringinfo="\roomnumber\":"+roomstring;
                 switchinfo="\"switch\":"+to_string(toolairconditioner.gets());
                 tgtinfo="\"tgtTemrature\":"+to_string(toolairconditioner.getaimtemp());
                 crtinfo="\"crtTemperature\":"+to_string(toolairconditioner.getnowtemp());
@@ -103,7 +105,7 @@ void server::monitor_receive(){
     }
     string sendingstring;
     if(finded==1)
-        sendingstring=roomarray+"]"+",\"roomInfo\":{"+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
+        sendingstring=roomarray+"]"+",\"roomInfo\":{"+roomstringinfo+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
     else
         sendingstring=roomarray+"]"+",\"roomInfo\":\"\"}";
     QByteArray sendingbuffer=(QString::fromStdString(sendingstring)).toLatin1();

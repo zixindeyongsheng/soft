@@ -18,7 +18,6 @@ class server:public QObject
 Q_OBJECT
 
 private:
-    vector<serve_airconditioner> serve_airconditionerptr;
     int serve_airconditionernum;
     int feelist[2][3];
     int hoc;//制冷1/制热0
@@ -27,6 +26,7 @@ private:
     LinkList* thelinklistptr;
     QTcpSocket* server_monitor_socket;
 public:
+    vector<serve_airconditioner> serve_airconditionerptr;
 	server()//构造函数
 	{
         server_sever = new QTcpServer();
