@@ -71,7 +71,7 @@ void server::monitor_receive(){
     string toolstring=buffer.toStdString();
     vector<string> desk;
     split(toolstring,",",desk);
-    string roomarray="{\"room\":[";
+    string roomarray="{\"rooms\":[";
     string switchinfo;
     string tgtinfo;
     string crtinfo;
@@ -93,9 +93,9 @@ void server::monitor_receive(){
             roomarray+="\""+roomstring+"\"";
             if(roomstring==desk[1])
             {
-                roomstringinfo="\roomnumber\":"+roomstring;
+                roomstringinfo="\"room\":"+roomstring;
                 switchinfo="\"switch\":"+to_string(toolairconditioner.gets());
-                tgtinfo="\"tgtTemrature\":"+to_string(toolairconditioner.getaimtemp());
+                tgtinfo="\"tgtTemperature\":"+to_string(toolairconditioner.getaimtemp());
                 crtinfo="\"crtTemperature\":"+to_string(toolairconditioner.getnowtemp());
                 windinfo="\"wind\":"+to_string(toolairconditioner.getwindspeed());
                 costinfo="\"cost\":"+to_string(toolairconditioner.getfee());
@@ -105,7 +105,7 @@ void server::monitor_receive(){
     }
     string sendingstring;
     if(finded==1)
-        sendingstring=roomarray+"]"+",\"roomInfo\":{"+roomstringinfo+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
+        sendingstring=roomarray+"]"+",\"roomInfo\":{"+roomstringinfo+","+switchinfo+","+tgtinfo+","+crtinfo+","+windinfo+","+costinfo+"}}";
     else
         sendingstring=roomarray+"]"+",\"roomInfo\":\"\"}";
     QByteArray sendingbuffer=(QString::fromStdString(sendingstring)).toLatin1();
