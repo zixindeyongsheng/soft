@@ -22,7 +22,7 @@ Q_OBJECT
 
 private:
     int serve_airconditionernum;
-    int feelist[2][3];
+    float feelist[2][3];
     int hoc;//制冷1/制热0
     QTcpServer* server_sever;
     QTcpServer* server_monitor;
@@ -58,7 +58,7 @@ public:
     }
     //定期发送（未具有定期功能）
 
-	void setfeelist(int fee1, int fee2, int fee3,int hoc)//设置费率
+    void setfeelist(float fee1, float fee2, float fee3,int hoc)//设置费率
 	{
 		this->feelist[hoc][0] = fee1;
 		this->feelist[hoc][1] = fee2;
@@ -68,9 +68,9 @@ public:
 	{
 		this->hoc = hoc;
 	}
-	int ** getfeelist()
+    float * getfeelist()
 	{
-		return (int **)(this->feelist);
+        return (float *)(this->feelist[hoc]);
 	}
     int gethoc()
 	{

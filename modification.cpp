@@ -32,7 +32,7 @@ void producer::run(){
     while (true) {
         sleep(1);
         LISTINT fetchlist = s->search();
-        qDebug()<<"end search";
+        //qDebug()<<"end search";
         LISTINT::iterator it;
         Ac temp;
         //qDebug()<<__LINE__;
@@ -51,7 +51,7 @@ void producer::run(){
             it2->sets(temp.s);
             it2->setwindspeed(temp.wind);
             it2->setaimtemp(temp.tem);
-            (it2)->putair((sv)->getfeelist(), (sv)->gethoc());
+            (it2)->putair(sv->getfeelist(), (sv)->gethoc());
            // qDebug()<<__LINE__;
 //            temp.tem = (it2)->getaimtemp();
 //            temp.cost = it2->getfee();

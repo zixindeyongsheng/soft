@@ -149,7 +149,7 @@ void server::server_send()//全部发送
     for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
     {
         Ac toolac;
-        toolac.s=serve_airconditionerptr[i].gets();
+        toolac.s=serve_airconditionerptr[i].getstate();
         toolac.tem=serve_airconditionerptr[i].getaimtemp();
         toolac.cost=serve_airconditionerptr[i].getfee();
         toolac.wind=serve_airconditionerptr[i].getwindspeed();
@@ -163,7 +163,7 @@ void server::server_send(serve_airconditioner toolariconditioner)//单个发送
 {
     sendmutex.lock();
     Ac toolac;
-    toolac.s=toolariconditioner.gets();
+    toolac.s=toolariconditioner.getstate();
     toolac.tem=toolariconditioner.getaimtemp();
     toolac.cost=toolariconditioner.getfee();
     toolac.wind=toolariconditioner.getwindspeed();

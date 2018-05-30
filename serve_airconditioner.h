@@ -36,7 +36,7 @@ public:
     ~serve_airconditioner(){
 
     }
-	int putair(int **feelist,int hoc);//运行则返回1，否则返回0
+    int putair(float feelist[],int hoc);//运行则返回1，否则返回0
 	void judge(int hoc)//判断是否达到设定温度
 	{
         if(s == 1)//空调开启状态

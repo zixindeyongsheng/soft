@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
 //    (toolserver->get_vec_ptr()).push_back(serve_airconditioner(sb->num));
 //    (toolserver->get_vec_ptr()).push_back(serve_airconditioner(ss->num));
 
-    toolserver.sethoc(0);
-    toolserver.setfeelist(0,0.1,0.2,0);
+    toolserver.sethoc(1);
+    toolserver.setfeelist(0,0.1,0.2,1);
     QThread t;
     producer p(lk, &toolserver);
     p.start();
