@@ -44,6 +44,7 @@ void server::server_receive()//接收
             if(toolairconditioner.getroomnumber()=="")
                 toolairconditioner.setroomnumber(toolac.num);
             qDebug()<<"new insert!!!";
+            qDebug()<<"wind:"<<toolac.wind<<","<<"temp:"<<toolac.tem<<","<<"type:"<<toolac.type<<",state:"<<toolac.s;
             thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
         }
         server_send(toolairconditioner);
