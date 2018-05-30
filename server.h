@@ -1,3 +1,5 @@
+#ifndef se
+#define se
 #include<iostream>
 #include<string.h>
 #include<string>
@@ -7,6 +9,7 @@
 #include<QString>
 #include<QByteArray>
 #include<QObject>
+#include<qmutex.h>
 #include<QDebug>
 #include"serve_airconditioner.h"
 #include"LINKLIST.h"
@@ -25,6 +28,8 @@ private:
     QTcpServer* server_monitor;
     LinkList* thelinklistptr;
     QTcpSocket* server_monitor_socket;
+    QMutex sendmutex;
+
 public:
     vector<serve_airconditioner> serve_airconditionerptr;
 	server()//构造函数
@@ -35,47 +40,24 @@ public:
         server_monitor=new QTcpServer();
         server_monitor->listen(QHostAddress::Any,8499);
         connect(server_monitor,&QTcpServer::newConnection,this,&server::monitor_new_connect);
+        connect(this,SIGNAL(signal_send(serve_airconditioner)),this,SLOT(server_send(serve_airconditioner)));
     }
-    server(LinkList* thelinklistptr)
+//    server(LinkList* thelinklistptr)
+//    {
+//        server();
+//        //this->thelinklistptr=thelinklistptr;
+//    }
+    putlinklist(LinkList* thelinklistptr2)
     {
-        server();
-        this->thelinklistptr=thelinklistptr;
+        this->thelinklistptr=thelinklistptr2;
     }
     ~server()
     {
-
         server_sever->close();
         server_sever->deleteLater();
     }
     //定期发送（未具有定期功能）
-    void server_send()//全部发送
-    {
-        for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
-        {
-            Ac toolac;
-            toolac.s=serve_airconditionerptr[i].gets();
-            toolac.tem=serve_airconditionerptr[i].getaimtemp();
-            toolac.cost=serve_airconditionerptr[i].getfee();
-            toolac.wind=serve_airconditionerptr[i].getwindspeed();
-            QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
-            serve_airconditionerptr[i].air_socket->write(buffer);
-            qDebug()<<(buffer.toStdString()).data();
-        }
-	}
-    void server_send(serve_airconditioner toolariconditioner)//单个发送
-    {
-        Ac toolac;
-        toolac.s=toolariconditioner.gets();
-        toolac.tem=toolariconditioner.getaimtemp();
-        toolac.cost=toolariconditioner.getfee();
-        toolac.wind=toolariconditioner.getwindspeed();
-        QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
-        toolariconditioner.air_socket->write(buffer);
-        qDebug()<<(buffer.toStdString()).data();
-    }
-	
 
-	//定期制冷
 	void setfeelist(int fee1, int fee2, int fee3,int hoc)//设置费率
 	{
 		this->feelist[hoc][0] = fee1;
@@ -104,4 +86,10 @@ private slots:
     void monitor_new_connect();
     void monitor_receive();
     void monitor_disconnect();
+public slots:
+    void server_send();
+    void server_send(serve_airconditioner toolariconditioner);
+signals:
+    void signal_send(serve_airconditioner toolariconditioner);
 };
+#endif

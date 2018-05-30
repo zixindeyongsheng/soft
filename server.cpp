@@ -8,7 +8,7 @@ void server::server_new_connect()//监听并连接
     serve_airconditionerptr.push_back(toolair);
     connect(toolair.air_socket, &QTcpSocket::readyRead, this, &server::server_receive);
     connect(toolair.air_socket, &QTcpSocket::disconnected, this, &server::server_disconnect);
-    qDebug()<<"an user connected!";
+    qDebug()<<"message:an user connected!";
 }
 
 void server::server_receive()//接收
@@ -17,6 +17,7 @@ void server::server_receive()//接收
     buffer = ((QTcpSocket*)(sender()))->readAll();
     QTcpSocket* toolsocket=(QTcpSocket*)(sender());
     string toolstring=buffer.toStdString();
+    qDebug()<<"receive:"<<toolstring.data();
     vector<string> desk;
     split(toolstring,"}",desk);
     int aimptr=-1;
@@ -35,14 +36,15 @@ void server::server_receive()//接收
         Ac toolac=parser::parse((desk[i]+"}").data());
         //此处格式转化解析报文
         if(toolac.type==1)//通告报文
-            if(toolairconditioner.getstate()==0)
-                toolairconditioner.setnowtemp(toolac.tem);//不在运行则温度随房间变化
-            else{}
+            //if(toolairconditioner.getstate()==0)
+            toolairconditioner.setnowtemp(toolac.tem);//不在运行则温度随房间变化
+           // else{}
         else//请求报文
         {
             if(toolairconditioner.getroomnumber()=="")
                 toolairconditioner.setroomnumber(toolac.num);
-            //thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
+            qDebug()<<"new insert!!!";
+            thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
         }
         server_send(toolairconditioner);
     }
@@ -54,7 +56,7 @@ void server::server_disconnect()//断开连接
     for (unsigned int i = 0; i < serve_airconditionerptr.size(); ++i)
         if (serve_airconditionerptr[i].air_socket == toolsocket)
             this->serve_airconditionerptr.erase(serve_airconditionerptr.begin() + i);
-    qDebug()<<"an user disconnected!";
+    qDebug()<<"message:an user disconnected!";
 }
 
 
@@ -62,7 +64,7 @@ void server::monitor_new_connect(){
     this->server_monitor_socket=this->server_monitor->nextPendingConnection();
     connect(this->server_monitor_socket,&QTcpSocket::readyRead,this,&server::monitor_receive);
     connect(this->server_monitor_socket,&QTcpSocket::disconnected,this,&server::monitor_disconnect);
-    qDebug()<<"monitor connected";
+    qDebug()<<"message:monitor connected";
 }
 
 void server::monitor_receive(){
@@ -91,7 +93,7 @@ void server::monitor_receive(){
             else
                 printf(",");
             roomarray+="\""+roomstring+"\"";
-            if(roomstring==desk[1])
+            if(roomstring==desk[1] && desk.size()>=2)
             {
                 roomstringinfo="\"room\":"+roomstring;
                 switchinfo="\"switch\":"+to_string(toolairconditioner.gets());
@@ -110,10 +112,10 @@ void server::monitor_receive(){
         sendingstring=roomarray+"]"+",\"roomInfo\":\"\"}";
     QByteArray sendingbuffer=(QString::fromStdString(sendingstring)).toLatin1();
     this->server_monitor_socket->write(sendingbuffer);
-    qDebug()<<sendingstring.data();
+    qDebug()<<"send:"<<sendingstring.data();
 }
 void server::monitor_disconnect(){
-    qDebug()<<"monitor disconnected";
+    qDebug()<<"message:monitor disconnected";
 }
 
 
@@ -139,3 +141,33 @@ void split(const string& src, const string& separator, vector<string>& dest)
      substring = str.substr(start);
      dest.push_back(substring);
  }
+
+void server::server_send()//全部发送
+{
+    sendmutex.lock();
+    for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
+    {
+        Ac toolac;
+        toolac.s=serve_airconditionerptr[i].gets();
+        toolac.tem=serve_airconditionerptr[i].getaimtemp();
+        toolac.cost=serve_airconditionerptr[i].getfee();
+        toolac.wind=serve_airconditionerptr[i].getwindspeed();
+        QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
+        serve_airconditionerptr[i].air_socket->write(buffer);
+        qDebug()<<"send:"<<(buffer.toStdString()).data();
+    }
+    sendmutex.unlock();
+}
+void server::server_send(serve_airconditioner toolariconditioner)//单个发送
+{
+    sendmutex.lock();
+    Ac toolac;
+    toolac.s=toolariconditioner.gets();
+    toolac.tem=toolariconditioner.getaimtemp();
+    toolac.cost=toolariconditioner.getfee();
+    toolac.wind=toolariconditioner.getwindspeed();
+    QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
+    toolariconditioner.air_socket->write(buffer);
+    qDebug()<<"send:"<<(buffer.toStdString()).data();
+    sendmutex.unlock();
+}

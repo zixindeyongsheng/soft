@@ -30,13 +30,15 @@ SOURCES += \
     serve_airconditioner.cpp \
     server.cpp \
     LINKLIST.cpp \
-    main.cpp
+    main.cpp \
+    modification.cpp
 
 HEADERS += \
     LINKLIST.h \
     node.hpp \
     parse.hpp \
     serve_airconditioner.h \
-    server.h
+    server.h \
+    modification.h
 
 FORMS +=

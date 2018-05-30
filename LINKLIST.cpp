@@ -1,6 +1,7 @@
 #include"LINKLIST.h"
 #include<string>
 #include<iostream>
+#include<QDebug>
 using namespace std;
 
 LinkList::LinkList() {
@@ -126,14 +127,15 @@ int LinkList::length()//链表长度
 	return listone.size();
 }
 
-LISTINT::iterator  LinkList::search()//搜索服务节点
+LISTINT& LinkList::search()//搜索服务节点
 {
+    qDebug()<<"start search";
 	LISTINT::iterator j;
 	int i = 0;
-	listserve.clear();//删除所有已在元素
+    listserve.clear();//删除所有已在元素
 	if (listtwo.empty()) {//如果风速2为空
 		if (listone.empty()) {//如果风速1为空
-			return listzero.end();
+            return listzero;
 		}
 		else {//风速1不为空
 			j = current1;
@@ -144,22 +146,22 @@ LISTINT::iterator  LinkList::search()//搜索服务节点
 					j++;
 					if (j == listone.end()) {//服务数量小于服务能力
 						current1 = listserve.begin();//下一次从头服务
-						return listserve.begin();
+                        return listserve;
 					}
 				}
-				current1 = ++j;
-				return listserve.begin();
+				current1 = j;
+                return listserve;
 			}
 			else {//服务节点不在尾节点
 				j = current1;
-				for (i = 1; i < running; i++) {
+				for (i = 1; i <= running; i++) {
 					listserve.push_back(*j);
 					j++;
 					if (j == listone.end()) {//剩余服务数量小于服务能力
-						current1 = listserve.begin();//下一次从头服务
+						current1 = listone.begin();//下一次从头服务
 					}
 					else {
-						current1 = ++j;
+						current1 = j;
 					}
 				}
 
@@ -184,13 +186,13 @@ LISTINT::iterator  LinkList::search()//搜索服务节点
 						j++;
 						if (j == listone.end()) {//服务数量小于服务能力
 							current1 = listserve.begin();//下一次从头服务
-							return listserve.begin();
+                            return listserve;
 						}
 						else {
 							current1 = j;
 						}
 					}
-					current1 = ++j;
+					current1 = j;
 				}
 				else {//服务节点不在尾节点
 					if (listone.size() > running - i) {
@@ -210,32 +212,32 @@ LISTINT::iterator  LinkList::search()//搜索服务节点
 					else {
 						for (j = listone.begin(); j != listone.end(); j++) {
 							listserve.push_back(*j);
-							current1 = listone.begin();
+                            current1 = listone.begin();
 						}
 					}
-					return listserve.begin();
+                    return listserve;
 				}
 			}
 			else {//风速2数量足够
-				for (i = 1; i < running; i++) {
+				for (i = 1; i <= running; i++) {
 					listserve.push_back(*j);
 					j++;
 				}
-				current2 = ++j;
+				current2 = j;
 			}
-			return listserve.begin();
+            return listserve;
 		}
 		else {//服务不在尾节点
 			j = current2;
 			if (listtwo.size() > running) {
-				for (i = 1; i < running; i++) {
+				for (i = 1; i <= running; i++) {
 					listserve.push_back(*j);
 					j++;
 					if (j == listtwo.end()) {
 						j = listtwo.begin();
 					}
 				}
-				current2 = ++j;
+				current2 = j;
 			}
 			else {
 				for (j = listtwo.begin(); j != listtwo.end(); j++) {
@@ -250,7 +252,7 @@ LISTINT::iterator  LinkList::search()//搜索服务节点
 						j++;
 						if (j == listone.end()) {//服务数量小于服务能力
 							current1 = listserve.begin();//下一次从头服务
-							return listserve.begin();
+                            return listserve;
 							//return;
 						}
 						else {
@@ -264,11 +266,11 @@ LISTINT::iterator  LinkList::search()//搜索服务节点
 							listserve.push_back(*j);
 							j++;
 							if (j == listone.end()) {//剩余服务数量小于服务能力
-								j = listserve.begin();//下一次从头服务
+								j = listone.begin();//下一次从头服务
 								current1 = j;
 							}
 							else {
-								current1 = ++j;
+								current1 = j;
 							}
 						}
 					}
@@ -276,5 +278,6 @@ LISTINT::iterator  LinkList::search()//搜索服务节点
 			}
 		}
 	}
-	return listserve.begin();
+    qDebug()<<"endsearch";
+    return listserve;
 }

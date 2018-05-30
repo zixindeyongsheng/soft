@@ -1,4 +1,5 @@
-
+#ifndef pa
+#define pa
 #include <string>
 
 #include "LINKLIST.h"
@@ -10,3 +11,4 @@ public:
     static const string parse(Ac);
 
 };
+#endif
