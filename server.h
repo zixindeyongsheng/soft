@@ -47,7 +47,7 @@ public:
 //        server();
 //        //this->thelinklistptr=thelinklistptr;
 //    }
-    putlinklist(LinkList* thelinklistptr2)
+    void putlinklist(LinkList* thelinklistptr2)
     {
         this->thelinklistptr=thelinklistptr2;
     }

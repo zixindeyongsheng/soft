@@ -47,7 +47,7 @@ void server::server_receive()//接收
             qDebug()<<"wind:"<<toolac.wind<<","<<"temp:"<<toolac.tem<<","<<"type:"<<toolac.type<<",state:"<<toolac.s;
             thelinklistptr->inserthead(toolac);//执行相应的请求创建和插入
         }
-        server_send(toolairconditioner);
+        //server_send(toolairconditioner);
     }
 }
 
@@ -149,10 +149,13 @@ void server::server_send()//全部发送
     for(unsigned int i=0;i<serve_airconditionerptr.size();++i)
     {
         Ac toolac;
-        toolac.s=serve_airconditionerptr[i].getstate();
+        toolac.s=serve_airconditionerptr[i].gets();
+        if(serve_airconditionerptr[i].getstate()==1)
+            toolac.wind=serve_airconditionerptr[i].getwindspeed();
+        else
+            toolac.wind=0;
         toolac.tem=serve_airconditionerptr[i].getaimtemp();
         toolac.cost=serve_airconditionerptr[i].getfee();
-        toolac.wind=serve_airconditionerptr[i].getwindspeed();
         QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
         serve_airconditionerptr[i].air_socket->write(buffer);
         qDebug()<<"send:"<<(buffer.toStdString()).data();
@@ -163,10 +166,13 @@ void server::server_send(serve_airconditioner toolariconditioner)//单个发送
 {
     sendmutex.lock();
     Ac toolac;
-    toolac.s=toolariconditioner.getstate();
+    toolac.s=toolariconditioner.gets();
+    if(toolariconditioner.getstate()==1)
+        toolac.wind=toolariconditioner.getwindspeed();
+    else
+        toolac.wind=0;
     toolac.tem=toolariconditioner.getaimtemp();
     toolac.cost=toolariconditioner.getfee();
-    toolac.wind=toolariconditioner.getwindspeed();
     QByteArray buffer=(QString::fromStdString(parser::parse(toolac))).toLatin1();
     toolariconditioner.air_socket->write(buffer);
     qDebug()<<"send:"<<(buffer.toStdString()).data();
