@@ -1,77 +1,125 @@
-#pragma once
+#ifndef serve_air
+#define serve_air
 #include<iostream>
 #include<string.h>
-#include"infor.h"
+#include<QTcpSocket>
 using namespace std;
 
-#define PUTAIRTIME 1
 
 
-class serve_airconditioner {
+
+class serve_airconditioner
+{
 private:
-	float aimtemp;
-	float nowtemp;
-	float fee;
-	int state;//ÊÇ·ñÕıÔÚÔË×÷
-	int windspeed;//Éè¶¨·çËÙ
-	string roomnumber;
-	infor theinfor;//ÏÂÒ»´ÎĞèÒª·¢ËÍµÄ±¨ÎÄ
-	int theinforable;//±¨ÎÄÓĞĞ§ĞÔ
+    float aimtemp;
 
+    float fee;
+    int state;//æ˜¯å¦æ­£åœ¨è¿ä½œ
+    int s;
+    int windspeed;//è®¾å®šé£é€Ÿ
+    string roomnumber;
+    int theinforable;//æŠ¥æ–‡æœ‰æ•ˆæ€§
+    float nowtemp;
 public:
-	int putair(int *feelist);//ÖÆÀäÔò·µ»Ø1£¬·ñÔò·µ»Ø0
-	void judge()//ÅĞ¶ÏÊÇ·ñ´ïµ½Éè¶¨ÎÂ¶È
-	{
-		if (fabs(aimtemp - nowtemp) < 0.1*PUTAIRTIME)
-			this->state = 0;
-	}
-	float getaimtemp()
-	{
-		return this->aimtemp;
-	}
-	float getnowtemp()
-	{
-		return this->nowtemp;
-	}
-	float getfee()
-	{
-		return this->fee;
-	}
-	int getwindspeed()
-	{
-		return this->windspeed;
-	}
-	infor gettheinfor()
-	{
-		return this->theinfor;
-	}
-	int gettheinforable()
-	{
-		return this->theinforable;
-	}
 
-	void setaimtemp(float temp)
-	{
-		this->aimtemp = temp;
-	}
-	void setnowtemp(float temp)
-	{
-		this->nowtemp = temp;
-	}
-	void setfee(float fee)
-	{
-		this->fee = fee;
-	}
-	void setwindspeed(int windspeed)
-	{
-		this->windspeed = windspeed;
-	}
-	void settheinfor(infor theinfor)
-	{
-		this->theinfor = theinfor;
-	}
-	void settheinforable(int theinforable)
-	{
-		this->theinforable = theinforable;
-	}
+    QTcpSocket* air_socket;
+    serve_airconditioner(){
+        aimtemp=25;
+        nowtemp=25;
+        fee=0;
+        state=0;//æ˜¯å¦æ­£åœ¨è¿ä½œ
+        windspeed=0;//è®¾å®šé£é€Ÿ
+        roomnumber="";
+        theinforable=0;//æŠ¥æ–‡æœ‰æ•ˆæ€§
+        air_socket=NULL;
+        s=0;
+    }
+    ~serve_airconditioner(){
+
+    }
+    int putair(float feelist[],int hoc);//è¿è¡Œåˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0
+    void judge(int hoc)//åˆ¤æ–­æ˜¯å¦è¾¾åˆ°è®¾å®šæ¸©åº¦
+    {
+        if(s == 1)//ç©ºè°ƒå¼€å¯çŠ¶æ€
+        {
+            if (hoc == 1)//åˆ¶å†·æ¸©åº¦é«˜äºè®¾å®šåˆ™å¯åŠ¨ï¼Œå¦åˆ™å¼€å¯
+                if (aimtemp < nowtemp)
+                    this->state = 1;
+                else
+                    this->state = 0;
+            else//åˆ¶çƒ­æ¸©åº¦ä½äºè®¾å®šæ¸©åº¦åˆ™å¯åŠ¨ï¼Œå¦åˆ™å¼€å¯
+                if (aimtemp < nowtemp)
+                    this->state = 0;
+                else
+                    this->state = 1;
+        }
+
+    }
+    float getaimtemp()
+    {
+        return this->aimtemp;
+    }
+    float getnowtemp()
+    {
+        return this->nowtemp;
+    }
+    float getfee()
+    {
+        return this->fee;
+    }
+    int getwindspeed()
+    {
+        return this->windspeed;
+    }
+    int gettheinforable()
+    {
+        return this->theinforable;
+    }
+    string getroomnumber()
+    {
+        return this->roomnumber;
+    }
+    int getstate()
+    {
+        return this->state;
+    }
+    int gets()
+    {
+        return this->s;
+    }
+
+
+    void setaimtemp(float temp)
+    {
+        this->aimtemp = temp;
+    }
+    void setnowtemp(float temp)
+    {
+        this->nowtemp = temp;
+    }
+    void setfee(float fee)
+    {
+        this->fee = fee;
+    }
+    void setwindspeed(int windspeed)
+    {
+        this->windspeed = windspeed;
+    }
+    void settheinforable(int theinforable)
+    {
+        this->theinforable = theinforable;
+    }
+    void setroomnumber(string roomnumber)
+    {
+        this->roomnumber = roomnumber;
+    }
+    void setstate(int state)
+    {
+        this->state=state;
+    }
+    void sets(int s)
+    {
+        this->s=s;
+    }
 };
+#endif

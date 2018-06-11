@@ -1,17 +1,19 @@
 #include"serve_airconditioner.h"
+static int PUTAIRTIME = 1;//制冷周期
 
-int serve_airconditioner::putair(int *feelist)
+int serve_airconditioner::putair(float feelist[],int hoc)
 {
-	this->judge();
-	if (this->state = 1)
-	{
-		this->nowtemp -= this->windspeed*0.1;
-		this->fee += feelist[this->windspeed];
-		this->theinfor._fee = this->fee;
-		this->theinfor._temputre = this->nowtemp;
-		this->theinforable = 1;
-		return 1;
-	}
-	else
-		return 0;
+    this->judge(hoc);
+    if (this->state == 1)
+    {
+        if (hoc == 1)//制冷
+            this->nowtemp -= this->windspeed*0.1*PUTAIRTIME;
+        else//制热
+            this->nowtemp += this->windspeed*0.1*PUTAIRTIME;
+        this->fee += (float)feelist[this->windspeed]*PUTAIRTIME;
+        this->theinforable = 1;
+        return 1;
+    }
+    else
+        return 0;
 }
